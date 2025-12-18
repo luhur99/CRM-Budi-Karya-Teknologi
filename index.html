@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Budi Karya Teknologi</title>
+    <!-- Tailwind CSS Play CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS untuk beberapa penyesuaian -->
+    <style>
+        /* Custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        /* Animasi loading konten */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .content-loaded {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        /* Efek hover untuk card */
+        .hover-card {
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .hover-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Sidebar styling */
+        .sidebar-item {
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .sidebar-item.active {
+            border-left-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        .sidebar-item:hover:not(.active) {
+            background-color: #f9fafb;
+            border-left-color: #d1d5db;
+        }
+        
+        /* Pipeline stage styling */
+        .pipeline-stage {
+            min-width: 280px;
+            flex-shrink: 0;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .mobile-hidden {
+                display: none;
+            }
+            .mobile-menu-btn {
+                display: block;
+            }
+            .pipeline-stage {
+                min-width: 250px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Container utama -->
+    <div class="flex h-screen">
+        <!-- Sidebar untuk desktop -->
+        <div class="mobile-hidden bg-white shadow-lg w-64 flex flex-col border-r border-gray-200">
+            <!-- Logo dan judul -->
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-blue-600 text-white rounded-lg p-2">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-gray-800">CRM BKT</h1>
+                        <p class="text-xs text-gray-500">Budi Karya Teknologi</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 mt-4">Dashboard Customer Service Team</p>
+            </div>
+            
+            <!-- Menu navigasi -->
+            <nav class="flex-1 p-4 overflow-y-auto custom-scrollbar">
+                <ul class="space-y-1">
+                    <li>
+                        <a href="#" data-module="dashboard" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-home text-gray-500 w-5"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-module="pipeline" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-project-diagram text-gray-500 w-5"></i>
+                            <span>Pipeline Management</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-module="followup-template" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-mail-bulk text-gray-500 w-5"></i>
+                            <span>Follow Up Template</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-module="leads" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-database text-gray-500 w-5"></i>
+                            <span>Database Lead</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" data-module="reporting" class="sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+                            <i class="fas fa-chart-bar text-gray-500 w-5"></i>
+                            <span>Reporting Performance</span>
+                        </a>
+                    </li>
+                </ul>
+                
+                <!-- Divider -->
+                <div class="my-6 border-t border-gray-200"></div>
+                
+                <!-- Informasi user -->
+                <div class="p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i class="fas fa-user text-blue-600"></i>
+                        </div>
+                        <div>
+                            <p class="font-medium text-gray-800">CS Team</p>
+                            <p class="text-xs text-gray-500">Customer Service</p>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+        <!-- Konten utama -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header untuk mobile -->
+            <header class="bg-white shadow-sm border-b border-gray-200 p-4 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <button id="mobileMenuButton" class="lg:hidden p-2 rounded-lg hover:bg-gray-100">
+                        <i class="fas fa-bars text-gray-700"></i>
+                    </button>
+                    <h2 id="pageTitle" class="text-xl font-semibold text-gray-800">Dashboard</h2>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Notifikasi -->
+                    <div class="relative">
+                        <button class="p-2 rounded-full hover:bg-gray-100">
+                            <i class="fas fa-bell text-gray-600"></i>
+                            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                        </button>
+                    </div>
+                    
+                    <!-- Pencarian -->
+                    <div class="relative hidden md:block">
+                        <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Konten dinamis akan dimuat di sini -->
+            <main id="contentContainer" class="flex-1 overflow-y-auto p-4 md:p-6 custom-scrollbar">
+                <!-- Konten default (dashboard) akan dimuat di sini -->
+                <div id="defaultContent">
+                    <div class="animate-pulse">
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                            <div class="h-32 bg-gray-200 rounded-lg"></div>
+                            <div class="h-32 bg-gray-200 rounded-lg"></div>
+                            <div class="h-32 bg-gray-200 rounded-lg"></div>
+                            <div class="h-32 bg-gray-200 rounded-lg"></div>
+                        </div>
+                        <div class="h-64 bg-gray-200 rounded-lg"></div>
+                    </div>
+                </div>
+            </main>
+            
+            <!-- Footer -->
+            <footer class="bg-white border-t border-gray-200 p-4 text-center text-sm text-gray-500">
+                <p>CRM Budi Karya Teknologi &copy; 2023 - Untuk CS Team</p>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Mobile sidebar overlay -->
+    <div id="mobileSidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+    
+    <!-- Mobile sidebar -->
+    <div id="mobileSidebar" class="fixed inset-y-0 left-0 w-64 bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50 lg:hidden">
+        <!-- Konten mobile sidebar sama dengan desktop sidebar -->
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center space-x-3">
+                <div class="bg-blue-600 text-white rounded-lg p-2">
+                    <i class="fas fa-chart-line text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-gray-800">CRM BKT</h1>
+                    <p class="text-xs text-gray-500">Budi Karya Teknologi</p>
+                </div>
+            </div>
+            <button id="closeMobileMenu" class="absolute top-4 right-4 p-2">
+                <i class="fas fa-times text-gray-600"></i>
+            </button>
+        </div>
+        
+        <nav class="p-4">
+            <ul class="space-y-1">
+                <li>
+                    <a href="#" data-module="dashboard" class="mobile-sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+                        <i class="fas fa-home text-gray-500 w-5"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-module="pipeline" class="mobile-sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+                        <i class="fas fa-project-diagram text-gray-500 w-5"></i>
+                        <span>Pipeline Management</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-module="followup-template" class="mobile-sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+                        <i class="fas fa-mail-bulk text-gray-500 w-5"></i>
+                        <span>Follow Up Template</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-module="leads" class="mobile-sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+                        <i class="fas fa-database text-gray-500 w-5"></i>
+                        <span>Database Lead</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-module="reporting" class="mobile-sidebar-item flex items-center space-x-3 p-3 rounded-lg text-gray-700">
+                        <i class="fas fa-chart-bar text-gray-500 w-5"></i>
+                        <span>Reporting Performance</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- JavaScript utama -->
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
